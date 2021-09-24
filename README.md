@@ -26,6 +26,8 @@ f64 = f16.to_f64
 
 ## Usage
 
+[View docs here](https://BlobCodes.gitlab.io/float16cr/)
+
 ```crystal
 require "float16cr"
 

@@ -48,7 +48,9 @@
 {% end %}
 
 {% for convert_type in ["BigDecimal", "BigFloat", "BigInt", "BigRational", "Complex"] %}
-  def to_f16 : Float16
-    Float16.new(self)
+  struct {{convert_type.id}}
+    def to_f16 : Float16
+      Float16.new(self)
+    end
   end
 {% end %}

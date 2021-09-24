@@ -345,7 +345,7 @@ struct Float16 < Float
     0x387d8000, 0x387da000, 0x387dc000, 0x387de000, 0x387e0000, 0x387e2000,
     0x387e4000, 0x387e6000, 0x387e8000, 0x387ea000, 0x387ec000, 0x387ee000,
     0x387f0000, 0x387f2000, 0x387f4000, 0x387f6000, 0x387f8000, 0x387fa000,
-    0x387fc000, 0x387fe000
+    0x387fc000, 0x387fe000,
   ] of UInt32
 
   private OFFSET = [
@@ -359,7 +359,7 @@ struct Float16 < Float
     0x0400, 0x0400, 0x0400, 0x0400, 0x0400, 0x0400,
     0x0400, 0x0400, 0x0400, 0x0400, 0x0400, 0x0400,
     0x0400, 0x0400, 0x0400, 0x0400, 0x0400, 0x0400,
-    0x0400, 0x0400, 0x0400, 0x0400
+    0x0400, 0x0400, 0x0400, 0x0400,
   ] of UInt32
 
   private EXPONENT = [
@@ -373,7 +373,7 @@ struct Float16 < Float
     0x85000000, 0x85800000, 0x86000000, 0x86800000, 0x87000000, 0x87800000,
     0x88000000, 0x88800000, 0x89000000, 0x89800000, 0x8a000000, 0x8a800000,
     0x8b000000, 0x8b800000, 0x8c000000, 0x8c800000, 0x8d000000, 0x8d800000,
-    0x8e000000, 0x8e800000, 0x8f000000, 0xc7800000
+    0x8e000000, 0x8e800000, 0x8f000000, 0xc7800000,
   ] of UInt32
 
   private BASE = [
@@ -428,7 +428,7 @@ struct Float16 < Float
     0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00,
     0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00,
     0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00, 0xfc00,
-    0xfc00, 0xfc00
+    0xfc00, 0xfc00,
   ] of UInt32
 
   private SHIFT = [
@@ -471,7 +471,7 @@ struct Float16 < Float
     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
     0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18, 0x18,
-    0x18, 0x18, 0x18, 0x18, 0x0d
+    0x18, 0x18, 0x18, 0x18, 0x0d,
   ] of UInt32
 
   @internal : UInt16
@@ -489,7 +489,7 @@ struct Float16 < Float
   def initialize(value : Float32)
     n = value.unsafe_as(UInt32)
     j = (n >> 23) & 0x1ff
-    @internal = (BASE[j].to_u32! + (( n & 0x007fffff) >> SHIFT[j])).to_u16!
+    @internal = (BASE[j].to_u32! + ((n & 0x007fffff) >> SHIFT[j])).to_u16!
   end
 
   def self.new(value) : self
@@ -503,7 +503,7 @@ struct Float16 < Float
 
   def to_f32 : Float32
     n = @internal >> 10
-    ret = MANTISSA[(@internal & 0x3ff) + OFFSET[ n ]] + EXPONENT[ n ];
+    ret = MANTISSA[(@internal & 0x3ff) + OFFSET[n]] + EXPONENT[n]
     ret.unsafe_as(Float32)
   end
 
@@ -567,11 +567,11 @@ struct Float16 < Float
     {% binaries = {"+" => "adding", "-" => "subtracting", "*" => "multiplying"} %}
 
     {% for name, type in {
-                          to_i: Int32, to_u: UInt32, to_f: Float64,
-                          to_i8: Int8, to_i16: Int16, to_i32: Int32, to_i64: Int64, to_i128: Int128,
-                          to_u8: UInt8, to_u16: UInt16, to_u32: UInt32, to_u64: UInt64, to_u128: UInt128,
-                          to_f64: Float64,
-                        } %}
+                           to_i: Int32, to_u: UInt32, to_f: Float64,
+                           to_i8: Int8, to_i16: Int16, to_i32: Int32, to_i64: Int64, to_i128: Int128,
+                           to_u8: UInt8, to_u16: UInt16, to_u32: UInt32, to_u64: UInt64, to_u128: UInt128,
+                           to_f64: Float64,
+                         } %}
       # Returns `self` converted to `{{type}}`.
       # Raises `OverflowError` in case of overflow.
       def {{name.id}} : {{type}}
@@ -587,13 +587,13 @@ struct Float16 < Float
 
     {% for num2 in nums %}
       {% for op, desc in {
-                          "==" => "equal to",
-                          "!=" => "not equal to",
-                          "<"  => "less than",
-                          "<=" => "less than or equal to",
-                          ">"  => "greater than",
-                          ">=" => "greater than or equal to",
-                        } %}
+                           "==" => "equal to",
+                           "!=" => "not equal to",
+                           "<"  => "less than",
+                           "<=" => "less than or equal to",
+                           ">"  => "greater than",
+                           ">=" => "greater than or equal to",
+                         } %}
         # Returns `true` if `self` is {{desc.id}} *other*.
         def {{op.id}}(other : {{num2.id}}) : Bool
           to_f32 {{op.id}} other

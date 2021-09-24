@@ -1,0 +1,28 @@
+before_script:
+  - shards install
+
+check_format:
+  image: "crystallang/crystal:latest"
+  script:
+  - crystal tool format --check
+
+build:latest:
+  image: "crystallang/crystal:latest"
+  script:
+  - crystal spec
+
+build:nightly:
+  image: "crystallang/crystal:nightly"
+  script:
+  - crystal spec
+
+pages:
+  image: "crystallang/crystal:latest"
+  stage: deploy
+  script:
+  - crystal docs -o public src/float16.cr
+  artifacts:
+    paths:
+    - public
+  only:
+  - master

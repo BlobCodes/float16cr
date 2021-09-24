@@ -33,7 +33,7 @@
       {% if convert_type.starts_with?("F") %}
         # Returns the result of {{desc.id}} `self` and *other*.
         def {{op.id}}(other : Float16) : self
-          (self {{op.id}} other.to_f32).to_f16
+          self {{op.id}} other.to_f32
         end
       {% else %}
         # Returns the result of {{desc.id}} `self` and *other*.

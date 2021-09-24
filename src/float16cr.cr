@@ -549,14 +549,6 @@ struct Float16 < Float
     (self.to_f32 ** other.to_f32).to_f16
   end
 
-  def **(other : Float16) : Float16
-    LibM.pow_f32(self.to_f32, other.to_f32).to_f16
-  end
-
-  def **(other) : Float16
-    (self.to_f32 ** other.to_f32).to_f16
-  end
-
   def to_s : String
     to_f32.to_s
   end
@@ -571,7 +563,7 @@ struct Float16 < Float
 
   {% begin %}
     {% ints = %w(Int8 Int16 Int32 Int64 Int128 UInt8 UInt16 UInt32 UInt64 UInt128) %}
-    {% nums = %w(Int8 Int16 Int32 Int64 Int128 UInt8 UInt16 UInt32 UInt64 UInt128 Float32 Float64) %}
+    {% nums = %w(Int8 Int16 Int32 Int64 Int128 UInt8 UInt16 UInt32 UInt64 UInt128 Float16 Float32 Float64) %}
     {% binaries = {"+" => "adding", "-" => "subtracting", "*" => "multiplying"} %}
 
     {% for name, type in {
@@ -630,4 +622,4 @@ struct Float16 < Float
   {% end %}
 end
 
-require "./ext/number.cr"
+require "./ext/*"

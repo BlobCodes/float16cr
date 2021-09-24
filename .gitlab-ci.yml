@@ -20,7 +20,7 @@ pages:
   image: "crystallang/crystal:latest"
   stage: deploy
   script:
-  - crystal docs -o public src/float16.cr
+  - crystal docs -o public src/float16cr.cr
   artifacts:
     paths:
     - public
